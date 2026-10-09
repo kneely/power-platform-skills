@@ -1,0 +1,33 @@
+name: canvas-apps-package-tests
+
+on:
+  pull_request:
+    paths:
+      - 'plugins/canvas-apps/**'
+      - 'adapters/kiro/**'
+      - 'powers/canvas-apps/**'
+      - 'scripts/build-canvas-kiro-power.js'
+      - 'scripts/tests/build-canvas-kiro-power.test.js'
+      - 'LICENSE'
+      - '.github/workflows/canvas-apps-package-tests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 20
+      - name: Check generated Power drift
+        run: node scripts/build-canvas-kiro-power.js --check
+      - name: Test generation and source preservation
+        run: node --test scripts/tests/build-canvas-kiro-power.test.js
+      - name: Validate portable Canvas package
+        run: node powers/canvas-apps/scripts/validate-package.js
+      - name: Test packaging and fail-closed readiness
+        run: node --test powers/canvas-apps/scripts/tests/*.test.js

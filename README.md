@@ -367,3 +367,16 @@ Any use of third-party trademarks or logos are subject to those third-party's po
 Power Pages, Mobile Apps, Model Apps, and Power Automate ship 1DS telemetry code, but their committed configurations and event schemas differ. All four are enabled and default-on. Power Pages events can include Dataverse organization and Entra tenant GUIDs when PAC is signed in, plus the signed-in user's Entra object ID when PAC exposes it. Power Pages also records approved create-site/localization choices, canonical locales, public localization package names and versions, stable validation failure codes, and localization completion data. It never records site names, free-text requirements, paths, prompts, raw errors, evidence URLs, or private-use locale subtags. Mobile Apps excludes those identity fields and records its documented invocation, project-instance, checkpoint, and App Insights selection fields. Model Apps events can include organization and tenant GUIDs but exclude the signed-in user's Entra object ID. Power Automate records the same identity fields as Power Pages from its skill hooks, and its bundled MCP server and CLI additionally record a per-invocation outcome (success or failure), duration, and, on failure, the error's class name and code — never the error message. Power Automate provisions public-cloud ingestion only, so events outside public cloud stay in the local mirror.
 
 For an enabled plugin, users opt out of transmission via `/<plugin>:telemetry off` (for example, `/power-pages:telemetry off`), stored in `~/.power-platform-skills/config.json`. The local diagnostic mirror is still written after this transmission-only opt-out. Each adopting plugin also honors `POWER_PLATFORM_SKILLS_TELEMETRY_<PLUGIN>_OPTOUT` for automation and CI. The environment variable has highest precedence and disables transmission regardless of the saved command choice. See the [shared telemetry guide](shared/telemetry/README.md) for the full field list, current plugin states, geo-routing behavior, kill-switch semantics, and local-mirror behavior.
+
+
+## Kiro Powers in this fork
+
+The Canvas Apps plugin is available as a separate generated Kiro Power under
+[`powers/canvas-apps`](powers/canvas-apps). Follow its [Kiro installation guide](powers/canvas-apps/docs/kiro.md).
+The original `plugins/canvas-apps` remains unchanged for existing plugin clients.
+
+**Current limit:** the upstream app-acceptance validator is not bundled, so the Power
+supports connection/discovery but blocks app authoring before mutations. Packaging
+checks do not constitute live Kiro or Power Apps verification.
+
+See [adapter maintenance](adapters/kiro/README.md) for the reproducible build and drift checks.

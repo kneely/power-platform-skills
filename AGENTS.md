@@ -319,3 +319,17 @@ When you add new plugins or change the repository-level structure, update this f
 - <a href="https://learn.microsoft.com/en-us/power-pages/configure/create-code-sites">Power Pages Code Sites</a>
 - <a href="https://learn.microsoft.com/en-us/power-platform/developer/cli/reference/pages">PAC CLI Reference</a>
 - <a href="https://learn.microsoft.com/en-us/rest/api/power-platform/powerpages/websites/create-website">Create Website API</a>
+
+
+## Generated Kiro Powers in this fork
+
+`powers/canvas-apps` is generated from the unchanged `plugins/canvas-apps` source and
+`adapters/kiro/canvas-apps` overlay. Do not edit generated files directly or add a
+canonical manifest to the original Canvas directory as part of this adapter: that
+would change existing clients' loader selection. Read `adapters/kiro/README.md`.
+
+Run `node scripts/build-canvas-kiro-power.js` after relevant source/adapter changes,
+then `node scripts/build-canvas-kiro-power.js --check` and both the generator and
+package test suites. Commit source/adapter edits and regenerated output together.
+The path-filtered `canvas-apps-package-tests` workflow covers this distribution only;
+its passing result does not establish app acceptance or live runtime behavior.
